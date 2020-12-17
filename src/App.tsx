@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import ButtonSet from './Components/ButtonSet';
 import Input from '@material-ui/core/Input';
+import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,13 +45,13 @@ console.log("Target Time", targetTime);
   return (
     <Box height={1} textAlign="center" margin="100px">
     <Grid container className={classes.container}>
-    <h3>Start your cooking time</h3>
+    <Typography>Start your cooking time</Typography>
     <Grid container justify="space-evenly" className={classes.timeWrapper}>
-    <Input style={{width:"65px", fontSize:"40px"}} type="number" value = {hours < 10 ? `0${hours}` : hours} onChange = {e => setTargetTime((Number(e.target.value) * 3600) + (minutes * 60) + seconds)} />
+    <Input style={{width:"65px", fontSize:"40px"}} type="number" value = {hours < 10 ? `0${hours}` : hours} onChange = {e => (Number(e.target.value) < 0) ? null : setTargetTime((Number(e.target.value) * 3600) + (minutes * 60) + seconds)} />
     <span>:</span>
-    <Input style={{width:"65px", fontSize:"40px"}} type="number" value = {minutes < 10 ? `0${minutes}` : minutes} onChange={e => (Number(e.target.value) > 60) ? null : setTargetTime((hours * 3600) + (Number(e.target.value) * 60) + seconds)} />
+    <Input style={{width:"65px", fontSize:"40px"}} type="number" value = {minutes < 10 ? `0${minutes}` : minutes} onChange={e => ((Number(e.target.value) > 60) || (Number(e.target.value) < 0)) ? null : setTargetTime((hours * 3600) + (Number(e.target.value) * 60) + seconds)} />
     <span>:</span>
-    <Input style={{width:"65px", fontSize:"40px"}} type="number" value = {seconds < 10 ? `0${seconds}` : seconds} onChange={e => (Number(e.target.value) > 60) ? null : setTargetTime((hours * 3600) + (minutes * 60) + Number(e.target.value))} />
+    <Input style={{width:"65px", fontSize:"40px"}} type="number" value = {seconds < 10 ? `0${seconds}` : seconds} onChange={e => ((Number(e.target.value) > 60) || (Number(e.target.value) < 0)) ? null : setTargetTime((hours * 3600) + (minutes * 60) + Number(e.target.value))} />
     </Grid>
     </Grid>
     <ButtonSet targetTime={targetTime} setTargetTime={setTargetTime}/>
